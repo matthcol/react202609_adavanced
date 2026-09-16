@@ -12,6 +12,7 @@ npm install
 
 ## Start Project
 ```
+npm run api
 npm run dev
 ```
 

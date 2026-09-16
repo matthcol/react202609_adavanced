@@ -1,18 +1,18 @@
-import { useContext, useEffect, useReducer, useState, type ChangeEvent, type Reducer } from 'react';
+import { Suspense, useContext, useReducer, useState, type ChangeEvent, type Reducer } from 'react';
+import { firstValueFrom } from 'rxjs';
 
 import _produitsData from '../../data/produits.json';
 
 import './App.css';
-import VignetteProduit from './VignetteProduit';
 import { range } from '../utils';
 
 import CartouchePanier from './CartouchePanier';
+import ListeProduits from './ListeProduits';
 import { ContextCompteur } from '../main';
 import type { Produit } from '../types/produit';
-import loadPageProduits from '../services/catalogueService';
 
 function App() {
-  const [produitsData, setProduitsData] = useState<Produit[]>([])
+  const [produitsPromise, setProduitsPromise] = useState<Promise<Produit[]> | null>(null)
   const [nbProduitPage, setNbProduitPage] = useState<number>(10)
   const [numPage, setNumPage] = useState<number>(1)
   
@@ -35,20 +35,19 @@ function App() {
   // data recalculées à chaque re-rendering déclenché par un changement de state (nbProduitPage ou numPage)
   const firstIndexProduit = (numPage - 1) * nbProduitPage // included
   const lastIndexProduit = numPage  * nbProduitPage // excluded
-  const nbPage = 10 // Math.ceil(produitsData.length / nbProduitPage)
-  const produitsDisplay = produitsData //.slice(firstIndexProduit, lastIndexProduit)
+  const nbPage = 10
   const pages = range(nbPage, 1)
-  
+
   console.log('Pages:', pages)
   console.log(`Display produits: page=${numPage} de ${firstIndexProduit} à ${lastIndexProduit}`)
 
-  useEffect(() => {
-    console.log('Chargement des données 0')
-    loadPageProduits(numPage, nbProduitPage)
-      .forEach(
-          newProduitsData => setProduitsData(newProduitsData)
-      )
-  }, [nbProduitPage, numPage])
+  const handleLoad = () => {
+    console.log('Chargement des données (déclenché par le bouton LOAD)')
+    setProduitsPromise(
+      import('../services/catalogueService')
+        .then(({ default: loadPageProduits }) => firstValueFrom(loadPageProduits(numPage, nbProduitPage)))
+    )
+  }
 
   // useEffect(() => {
   //   // phase 1 : fait qd le useEffect est joué
@@ -117,7 +116,7 @@ function App() {
       </div>
       <div className='navigation'>
         { pages.map(numPage => (
-            <button 
+            <button
               onClick={() => handleChangePage(numPage)}
               key={`page_${numPage}`}
             >
@@ -126,17 +125,17 @@ function App() {
           ))
         }
       </div>
+      <div className='chargement'>
+        <button onClick={handleLoad}>LOAD</button>
+      </div>
       </div>
 
         {/* Liste des produits */}
-      <div className='listeProduit'>
-          {produitsDisplay.map((produit, index) => (
-            <VignetteProduit 
-                key={`vgntprod_${index}`} // ou index du parcours du map 
-                produit={produit}
-            />)
-          )}
-      </div>
+      {produitsPromise && (
+        <Suspense fallback={<div>Chargement des produits...</div>}>
+          <ListeProduits produitsPromise={produitsPromise} />
+        </Suspense>
+      )}
     </div>
   )
 }
