@@ -1,4 +1,4 @@
-import { createContext, StrictMode, useReducer } from 'react'
+import { createContext, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { ContextPanierProvider } from './contextes/ContextPanier'

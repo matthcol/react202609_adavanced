@@ -1,4 +1,4 @@
-import {catchError, from, map, Observable, of, pipe, switchMap} from 'rxjs'
+import {catchError, from, map, Observable, of, switchMap} from 'rxjs'
 import type { Produit } from '../types/produit'
 
 const BASE_URL = 'http://localhost:3001/produitsData'

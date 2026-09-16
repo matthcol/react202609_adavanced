@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, type ActionDispatch } from "react"
+import { createContext, useReducer, type ActionDispatch } from "react"
 import type { Panier } from "../types/panier"
 import { panierReducer, type ActionPanier } from "../reducers/panierReducer"
 
@@ -24,13 +24,6 @@ const ContextPanierProvider = ({children}: ContextPanierProviderProps) => {
     )
 }
 
-// custom Hook pour recuperer le panier si disponible
-function usePanier(): ContextPanierValue {
-      const contextPanier = useContext(ContextPanier)
-      if (!contextPanier) {
-        throw new Error("Utilisation du panier sans mise en place du provider")
-      }
-      return contextPanier
-} 
+ 
 
-export {ContextPanier, ContextPanierProvider, usePanier}
+export {ContextPanier, ContextPanierProvider, type ContextPanierValue}

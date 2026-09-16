@@ -1,8 +1,8 @@
-import { useContext, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import type { Produit } from "../types/produit";
 import './VignetteProduit.css'
-import { ContextCompteur } from "../main";
-import { usePanier } from "../contextes/ContextPanier";
+import usePanier from "../hooks/panierHook";
+
 
 type VignetteProduitProps = {
     produit: Produit,
@@ -12,7 +12,6 @@ type VignetteProduitProps = {
 
 const VignetteProduit: FC<VignetteProduitProps> = ({produit}) => {
     const {dispatch} = usePanier();
-    const compteur = useContext(ContextCompteur);
     const [isAdding, setIsAdding] = useState(false);
 
     const handleAjouterPanier = () => {

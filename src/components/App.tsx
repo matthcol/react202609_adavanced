@@ -1,7 +1,5 @@
-import { Suspense, useContext, useReducer, useState, type ChangeEvent, type Reducer } from 'react';
+import { Suspense, useContext, useState, type ChangeEvent } from 'react';
 import { firstValueFrom } from 'rxjs';
-
-import _produitsData from '../../data/produits.json';
 
 import './App.css';
 import { range } from '../utils';
@@ -18,19 +16,6 @@ function App() {
   
   
   const compteur = useContext(ContextCompteur)
-
-  // Version sans contexte:
-  // const [panier, dispatch] = useReducer(panierReducer, [])
-
-  // Version avec  contexte sans custom Hook (undefined possible)
-  // const contextPanier = useContext(ContextPanier)
-  // if (!contextPanier) {
-  //   throw new Error("Utilisation du panier sans mise en place du provider")
-  // }
-  // const {panier, dispatch} = contextPanier
-  
-  // Version avec custom hook
-  // const {panier, dispatch} = usePanier() // finalement plus utilisé ici, uniquement ds enfants
 
   // data recalculées à chaque re-rendering déclenché par un changement de state (nbProduitPage ou numPage)
   const firstIndexProduit = (numPage - 1) * nbProduitPage // included
