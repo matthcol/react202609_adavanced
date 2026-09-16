@@ -25,3 +25,5 @@ dist-ssr
 
 __draft__
 package-lock.json
+
+.claude/
