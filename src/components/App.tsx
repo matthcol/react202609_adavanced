@@ -1,5 +1,4 @@
-import { Suspense, useContext, useReducer, useState, type ChangeEvent, type Reducer } from 'react';
-import { firstValueFrom } from 'rxjs';
+import { lazy, Suspense, useContext, useReducer, useState, type ChangeEvent, type Reducer } from 'react';
 
 import _produitsData from '../../data/produits.json';
 
@@ -7,29 +6,18 @@ import './App.css';
 import { range } from '../utils';
 
 import CartouchePanier from './CartouchePanier';
-import ListeProduits from './ListeProduits';
 import { ContextCompteur } from '../main';
-import type { Produit } from '../types/produit';
+
+const ListeProduits = lazy(() => import('./ListeProduits'));
 
 function App() {
-  const [produitsPromise, setProduitsPromise] = useState<Promise<Produit[]> | null>(null)
+  const [chargementDemande, setChargementDemande] = useState(false)
   const [nbProduitPage, setNbProduitPage] = useState<number>(10)
   const [numPage, setNumPage] = useState<number>(1)
   
   
   const compteur = useContext(ContextCompteur)
 
-  // Version sans contexte:
-  // const [panier, dispatch] = useReducer(panierReducer, [])
-
-  // Version avec  contexte sans custom Hook (undefined possible)
-  // const contextPanier = useContext(ContextPanier)
-  // if (!contextPanier) {
-  //   throw new Error("Utilisation du panier sans mise en place du provider")
-  // }
-  // const {panier, dispatch} = contextPanier
-  
-  // Version avec custom hook
   // const {panier, dispatch} = usePanier() // finalement plus utilisé ici, uniquement ds enfants
 
   // data recalculées à chaque re-rendering déclenché par un changement de state (nbProduitPage ou numPage)
@@ -43,10 +31,7 @@ function App() {
 
   const handleLoad = () => {
     console.log('Chargement des données (déclenché par le bouton LOAD)')
-    setProduitsPromise(
-      import('../services/catalogueService')
-        .then(({ default: loadPageProduits }) => firstValueFrom(loadPageProduits(numPage, nbProduitPage)))
-    )
+    setChargementDemande(true)
   }
 
   // useEffect(() => {
@@ -131,9 +116,9 @@ function App() {
       </div>
 
         {/* Liste des produits */}
-      {produitsPromise && (
-        <Suspense fallback={<div>Chargement des produits...</div>}>
-          <ListeProduits produitsPromise={produitsPromise} />
+      {chargementDemande && (
+        <Suspense fallback={<div>Chargement du module...</div>}>
+          <ListeProduits numPage={numPage} nbProduitPage={nbProduitPage} />
         </Suspense>
       )}
     </div>
