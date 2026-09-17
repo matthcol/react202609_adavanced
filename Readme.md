@@ -58,3 +58,85 @@ Liens:
 
 
 ## React Dev Tools - Cycle de vie des objets
+
+TODO: liens
+
+## Hooks
+Définition:
+- commence par 'use'
+- fonction pure: calcul, data, pas de GUI
+
+Liste:
+* State
+- useSate
+- useReducer
+
+* Reference et DOM
+- useRef
+- useId (utile en SSR)
+
+* Contexte
+- useContext
+
+* Performance
+- useMemo : mémoïse 1 valeur dérivée
+- useCallback : mémoïse 1 reference de méthode
+
+* Actions
+- use : promesse<Data> => ref Data
+- useActionState, useFormStatus : Form
+- useOptimistic
+
+* Effects
+- useFfect : [après] effets de bord (call API, DB)
+- useLayoutEffect : [avant]
+- useInsertEffect : CSS
+
+
+Exemple:
+```typescript
+export function useCart(products: Product[]): UseCartResult {
+  const [cart, setCart] = useState<Record<string, number>>(readStoredCart)
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cart))
+    } catch {
+      // Stockage indisponible (navigation privée, quota dépassé...) : tant pis, pas de persistance.
+    }
+  }, [cart])
+
+  const addToCart = useCallback((productId: string) => {
+    setCart((current) => ({
+      ...current,
+      [productId]: (current[productId] ?? 0) + 1,
+    }))
+  }, [])
+
+  const decrementFromCart = useCallback((productId: string) => {
+    setCart((current) => {
+      const nextQuantity = (current[productId] ?? 0) - 1
+      if (nextQuantity <= 0) {
+        const next = { ...current }
+        delete next[productId]
+        return next
+      }
+      return { ...current, [productId]: nextQuantity }
+    })
+  }, [])
+
+  const clearCart = useCallback(() => setCart({}), [])
+
+  const itemsInCart = useMemo(
+    () => Object.values(cart).reduce((total, quantity) => total + quantity, 0),
+    [cart],
+  )
+
+  const total = useMemo(
+    () => products.reduce((sum, product) => sum + (cart[product.id] ?? 0) * product.price, 0),
+    [products, cart],
+  )
+
+  return { cart, itemsInCart, total, addToCart, decrementFromCart, clearCart }
+}
+```

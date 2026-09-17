@@ -19,6 +19,7 @@ const VignetteProduit: FC<VignetteProduitProps> = ({produit}) => {
         dispatch({
             type: 'ajouterProduit',
             idProduit: produit.Id,
+            price: produit.Prix,
             quantite: 1
         });
         

@@ -1,14 +1,14 @@
 import type { LigneArticle, Panier } from "../types/panier";
 
 type ActionPanier = 
-  | { type: 'ajouterProduit'; idProduit: number; quantite: number }
+  | { type: 'ajouterProduit'; idProduit: number; quantite: number; price: number }
   | { type: 'supprimerProduit'; idProduit: number }
   | { type: 'modifierProduit'; idProduit: number; quantite: number };
 
 const panierReducer = (panier: Panier, action: ActionPanier) => {
     switch (action.type) {
         case 'ajouterProduit': { // idProduit + quantite
-            const newLigneArticle: LigneArticle = {idProduit: action.idProduit, quantite: action.quantite}
+            const newLigneArticle: LigneArticle = {idProduit: action.idProduit, quantite: action.quantite, price: action.price}
             console.log('Ajout ligne article:', newLigneArticle)
             return [...panier, newLigneArticle]
         }

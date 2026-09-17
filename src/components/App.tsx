@@ -87,7 +87,7 @@ function App() {
 
       {/* Panier sticky */}
       <div className="panier-section">
-        <CartouchePanier />
+        <CartouchePanier valid={false} />
       </div>
     
           {/* Contrôles de pagination et taille */}
