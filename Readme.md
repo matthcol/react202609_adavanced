@@ -144,7 +144,7 @@ export function useCart(products: Product[]): UseCartResult {
 ## Tests
 Utilisation de Vitest:
 ```
-npm install --save-dev vitest 
+npm install --save-dev vitest @vitest/coverage-istanbul 
 ```
 
 Extension VSCode : vitest
