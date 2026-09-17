@@ -13,7 +13,7 @@ const ListeProduits: FC<ListeProduitsProps> = ({ produitsPromise }) => {
     <div className='listeProduit'>
       {produits.map((produit, index) => (
         <VignetteProduit
-          key={`vgntprod_${index}`}
+          key={`vnp_${index}`}
           produit={produit}
         />
       ))}

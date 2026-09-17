@@ -17,7 +17,7 @@ const CartouchePanier = () => {
             <div>Nombre d'articles: {panier.length}</div>
             {
                 panier.map(({idProduit, quantite}, i) => 
-                    <LigneArticle idProduit={idProduit} quantite={quantite} index={i} />
+                    <LigneArticle idProduit={idProduit} quantite={quantite} index={i} key={`la_${i}`} />
                 )
             }
         </div>

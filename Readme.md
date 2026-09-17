@@ -52,3 +52,9 @@ Un fichier qui export un composant n'exporte pas de constantes et fonctions
 
 * react-hooks/rules-of-hooks : interdit  d'appeler un hook dans une condition, 1 boucle ou après un return anticipé
 
+Liens:
+- [eslint-plugin-react-hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks)
+- [Guide de migration ESLint flat config](https://eslint.org/docs/latest/use/configure/migration-guide)
+
+
+## React Dev Tools - Cycle de vie des objets
