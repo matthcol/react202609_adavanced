@@ -150,9 +150,10 @@ npm install --save-dev vitest @vitest/coverage-istanbul
 Extension VSCode : vitest
 
 Quelques astuces:
-- fonction render pour la mise en place des composants
+- fonction render() pour la mise en place des composants
 - trigger UI avec fireEvent ou userEvent
-- act() : declenchement changement état
+- renderHook() pour mise en place d'un hook dans un composant virtuel
+- act() : declenchement changement état (hook)
 - mock : vi.fn() + MSW (http)
 
 Exemple mock HTTP:
