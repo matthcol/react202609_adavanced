@@ -40,7 +40,7 @@ const VignetteProduit: FC<VignetteProduitProps> = ({produit}) => {
             </div>
             {/* Contenu */}
             <div className="vignette-content">
-                <div className="vignette-libelle">{produit.Libelle}</div>
+                <div className="vignette-libelle">{produit.Libelle.toUpperCase()}</div>
                 <div className="vignette-prix">Prix : {produit.Prix.toFixed(2)}€</div>
 
                 {/* Labels qualité */}

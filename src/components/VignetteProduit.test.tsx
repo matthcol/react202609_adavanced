@@ -38,7 +38,7 @@ describe('VignetteProduit', () => {
         // verify display
         // .getByText => throw error if not found
         // .queryByText => return null if not found
-        expect(screen.getByText("Chips Pom'lisse Nature - 6x30g")).toBeInTheDocument()
+        expect(screen.getByText(/chips pom'lisse nature/i)).toBeInTheDocument()
         expect(screen.getByText("Prix : 1.47€")).toBeInTheDocument()
         expect(screen.queryByText("92")).not.toBeInTheDocument()
         expect(screen.getByRole('img', {name: "Chips Pom'lisse Nature - 6x30g" }))
