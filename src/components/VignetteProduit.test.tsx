@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react'
-import { describe, it, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 import type { Produit } from '../types/produit'
 import VignetteProduit from './VignetteProduit'
 import type { Panier } from '../types/panier'
@@ -34,6 +34,18 @@ describe('VignetteProduit', () => {
     it('display produit with all infos', () => {
         // render Vignette
         renderVignette();
+
         // verify display
+        // .getByText => throw error if not found
+        // .queryByText => return null if not found
+        expect(screen.getByText("Chips Pom'lisse Nature - 6x30g")).toBeInTheDocument()
+        expect(screen.getByText("Prix : 1.47€")).toBeInTheDocument()
+        expect(screen.queryByText("92")).not.toBeInTheDocument()
+        expect(screen.getByRole('img', {name: "Chips Pom'lisse Nature - 6x30g" }))
+            .toHaveAttribute('src', produit.PhotoListe)
+        // TODO: others
     })
+
+    // TODO :
+    //  act : trigger + (add produit) + verify (mock) que ajouterProduit dans le panier a été appelé
 })

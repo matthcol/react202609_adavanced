@@ -41,7 +41,7 @@ const VignetteProduit: FC<VignetteProduitProps> = ({produit}) => {
             {/* Contenu */}
             <div className="vignette-content">
                 <div className="vignette-libelle">{produit.Libelle}</div>
-                <div className="vignette-prix">{produit.Prix.toFixed(2)}</div>
+                <div className="vignette-prix">Prix : {produit.Prix.toFixed(2)}€</div>
 
                 {/* Labels qualité */}
                 {produit.FiltresLabelsQualite.length > 0 && (
