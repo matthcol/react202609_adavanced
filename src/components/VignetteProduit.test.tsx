@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import type { Produit } from '../types/produit'
 import VignetteProduit from './VignetteProduit'
@@ -21,18 +21,21 @@ const produit: Produit = {
 }
 
 function renderVignette() {
-    const panier: Panier = []; // TODO: à gérer en param
+    const panier: Panier = [];
+    const dispatch = vi.fn(); // mock du dispatch du reducer Panier
+
     render(
-        <ContextPanier.Provider value={{ panier, dispatch: vi.fn() }}>
+        <ContextPanier.Provider value={{ panier, dispatch }}>
             <VignetteProduit produit={produit} />
         </ContextPanier.Provider>
     )
+    return {panier, dispatch}
 }
 
 describe('VignetteProduit', () => {
 
     it('display produit with all infos', () => {
-        // render Vignette
+        // mise en place du composant
         renderVignette();
 
         // verify display
@@ -46,6 +49,21 @@ describe('VignetteProduit', () => {
         // TODO: others
     })
 
-    // TODO :
-    //  act : trigger + (add produit) + verify (mock) que ajouterProduit dans le panier a été appelé
+    it('ajouter produit dans le panier', () => {
+        const {dispatch} = renderVignette()
+
+        // action utilisateur
+        fireEvent.click(screen.getByRole('button', {name: /ajouter au panier/i}))
+
+        // verify : dispatch has been called
+        expect(dispatch).toHaveBeenCalledOnce()
+        expect(dispatch).toHaveBeenCalledWith({
+            type: 'ajouterProduit',
+            idProduit: produit.Id,
+            price: produit.Prix,
+            quantite: 1
+        })
+
+    })
+
 })

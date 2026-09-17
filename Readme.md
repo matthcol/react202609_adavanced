@@ -142,9 +142,45 @@ export function useCart(products: Product[]): UseCartResult {
 ```
 
 ## Tests
-Utilisation de Vitest:
+Utilisation de Vitest: TODO autres dependances
 ```
 npm install --save-dev vitest @vitest/coverage-istanbul 
 ```
 
 Extension VSCode : vitest
+
+Quelques astuces:
+- fonction render pour la mise en place des composants
+- trigger UI avec fireEvent ou userEvent
+- act() : declenchement changement état
+- mock : vi.fn() + MSW (http)
+
+Exemple mock HTTP:
+
+```typescript
+export const handlers = [
+  http.get('/api/products', () => HttpResponse.json(testProducts)),
+
+  http.post('/api/checkout', async ({ request }) => {
+    const body = (await request.json()) as CheckoutRequestBody
+
+    const items: OrderConfirmation['items'] = body.items.map((line) => {
+      const product = testProducts.find((candidate) => candidate.id === line.productId)
+      return {
+        productId: line.productId,
+        name: product?.name ?? line.productId,
+        quantity: line.quantity,
+        subtotal: (product?.price ?? 0) * line.quantity,
+      }
+    })
+
+    const confirmation: OrderConfirmation = {
+      orderId: 'test-order-id',
+      total: items.reduce((sum, item) => sum + item.subtotal, 0),
+      items,
+    }
+
+    return HttpResponse.json(confirmation, { status: 201 })
+  }),
+]
+```
