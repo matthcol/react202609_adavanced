@@ -38,6 +38,9 @@ describe('VignetteProduit', () => {
         // mise en place du composant
         renderVignette();
 
+        // debug
+        // screen.debug()
+
         // verify display
         // .getByText => throw error if not found
         // .queryByText => return null if not found
@@ -53,7 +56,10 @@ describe('VignetteProduit', () => {
         const {dispatch} = renderVignette()
 
         // action utilisateur
-        fireEvent.click(screen.getByRole('button', {name: /ajouter au panier/i}))
+        const button = screen.getByRole('button', {name: /ajouter au panier/i})
+        // debug
+        // screen.debug(button)
+        fireEvent.click(button)
 
         // verify : dispatch has been called
         expect(dispatch).toHaveBeenCalledOnce()

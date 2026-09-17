@@ -155,6 +155,7 @@ Quelques astuces:
 - renderHook() pour mise en place d'un hook dans un composant virtuel
 - act() : declenchement changement état (hook)
 - mock : vi.fn() + MSW (http)
+- screen.debug(...)
 
 Exemple mock HTTP:
 
