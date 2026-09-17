@@ -140,3 +140,11 @@ export function useCart(products: Product[]): UseCartResult {
   return { cart, itemsInCart, total, addToCart, decrementFromCart, clearCart }
 }
 ```
+
+## Tests
+Utilisation de Vitest:
+```
+npm install --save-dev vitest 
+```
+
+Extension VSCode : vitest
