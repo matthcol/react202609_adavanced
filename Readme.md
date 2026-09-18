@@ -1,6 +1,10 @@
 # React
 ## Sommaire
 Le projet existe en plusieurs versions :
+- branche `main` qui intègre : `feature/01-decoupage-reducer`, `feature/03-hook` et `feature/04-tests`.
+- branche `feature/02-lazy-suspense` : version alternative du dynamic import avec `lazy()`.
+- branche `feature/00-without-reducer` : 1ère version à plat sans reducer.
+- branche `feature/05-ssr`: demo SSR
 
 ## Premier Projet React - Client classique
 
