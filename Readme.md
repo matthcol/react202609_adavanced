@@ -1,6 +1,10 @@
 # React
 ## Sommaire
 Le projet existe en plusieurs versions :
+- branche `main` qui intègre : `feature/01-decoupage-reducer`, `feature/03-hook` et `feature/04-tests`.
+- branche `feature/02-lazy-suspense` : version alternative du dynamic import avec `lazy()`.
+- branche `feature/00-without-reducer` : 1ère version à plat sans reducer.
+- branche `feature/05-ssr`: demo SSR
 
 ## Premier Projet React - Client classique
 
@@ -172,10 +176,35 @@ export function useCart(products: Product[]): UseCartResult {
 
 ## Tests
 ***Settings :***
-Utilisation et configuration de Vitest. Extension VCCode Vitest (ou équivalent autre IDE).
+Utilisation et configuration de Vitest. Extension VSCode Vitest (ou équivalent autre IDE).
 ```shell
-npm install --save-dev vitest @vitest/coverage-istanbul 
+npm install --save-dev vitest @vitest/coverage-v8 jsdom @testing-library/react @testing-library/jest-dom
+npm install --save-dev msw @testing-library/user-event  # mock HTTP (MSW) + simulation d'interactions utilisateur
 ```
+
+***Fichiers qui portent les settings :***
+- [`vite.config.ts`](vite.config.ts) : bloc `test` (globals, `environment: 'jsdom'`, `setupFiles`)
+- [`src/setupTests.ts`](src/setupTests.ts) : import de `@testing-library/jest-dom/vitest` (matchers `toBeInTheDocument`, ...)
+- [`tsconfig.app.json`](tsconfig.app.json) : `types` (ajouter `"vitest/globals"` si `globals: true` côté test, pour que TS reconnaisse `describe`/`it`/`expect` sans import)
+- [`package.json`](package.json) : script `"test": "vitest run --coverage"` + `devDependencies` ci-dessus
+
+***Lancement en CLI :***
+```shell
+# tous les tests (script npm défini dans package.json : "test": "vitest run --coverage")
+npm run test
+
+# 1 seul fichier de test
+npx vitest run src/components/VignetteProduit.test.tsx
+
+# filtre sur le nom du test (regex/substring), tous fichiers ou 1 fichier ciblé
+npx vitest run -t "ajoute une ligne article"
+npx vitest run src/components/VignetteProduit.test.tsx -t "ajouter produit dans le panier"
+```
+
+***Lancement dans l'IDE :***
+- extension VSCode Vitest : run (▶) vs debug (🐞, avec breakpoints)
+- panneau Testing : arborescence + suivi du statut (pass/fail) de chaque test
+- panneau Debug Console / Output : trace des `console.log`/erreurs pendant l'exécution
 
 ***Quelques astuces :***
 - fonction render() pour la mise en place des composants
