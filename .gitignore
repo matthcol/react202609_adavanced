@@ -29,3 +29,16 @@ package-lock.json
 .claude/
 
 coverage/
+
+
+
+# next.js
+/.next/
+/out/
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
